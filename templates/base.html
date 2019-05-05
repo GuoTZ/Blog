@@ -1,114 +1,174 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang="zh">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %} 且听俺哔哔 {% endblock %}</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/pure-min.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/grids-responsive-min.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/blog.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/mdstyle.css' %}"/>
-    <link rel="stylesheet" href="//at.alicdn.com/t/font_1160532_udmhhwd21od.css">
-</head>
-<body>
-<div id="layout" class="pure-g">
-    <!--左侧边栏 开始-->
-    <div class="sidebar pure-u-1 pure-u-md-1-4" id='sidebar-Id'>
-        
-        <div class="header">
-            
-            <h1 class="brand-title"><a href="{% url 'home' %}"style="text-decoration: none;">且听俺哔哔</a></h1>
-            <br>
-            <h2 class="brand-tagline">An ios development engineer, has become a back-end server programming</h2>
-            <br>
-            <nav class="nav" >
-                <h3 class="brand-tagline" style="margin: 2%">标签</h3>
-                <ul class="nav-list">
-                    <li class="nav-item">
-                        {% for category in category_list %}
-                            <a class="pure-button" href="{% url 'category_menu' id=category.id %}"
-                               style="text-decoration: none">{{ category }}</a>
-                        {% endfor %}&nbsp;
-                    </li>
-                </ul>
-                <br>
-                <h3 class="brand-tagline" style="margin: 2%">文章归档</h3>
-                <ul class="nav-list" style="margin: 2%">
-                    {% for m in months %}
-                        <li class="nav-item">
-                            <a class="nav-item-time" href="{% url 'archives' year=m.year month=m.month %}"
-                               style="text-decoration: none;display:inline-block;color: #47BAC1;text-decoration:none;border:0px;box-shadow: none">{{ m | date:'Y年m月' }}</a>
-                        </li>
-                    {% empty %}
-                        暂无归档！
-                    {% endfor %}
-                </ul>
-                <br>
-                
-                <ul class="nav-list">
-                <li>
-                    <a href="#" style="text-decoration: none">
-                        <i class="fa fa-weixin" style="font-size: 30px" aria-hidden="true" title="微信公众号"></i>
-                    </a>
-                    &nbsp;
-                    <a href=mailto:jinbitou@126.com style="text-decoration: none">
-                        <i class="fa fa-envelope-o" style="font-size: 30px" aria-hidden="true" title="邮箱"></i>
-                    </a>
-                    &nbsp;
-                    <a href="https://github.com/leeyis/" style="text-decoration: none" title="Github"
-                       target="_blank">
-                        <i class="fa fa-github" style="font-size: 34px" aria-hidden="true"></i>
-                    </a>
-                    &nbsp;
-                </li>
-            </ul>
-            </nav>
-        </div>
-    </div>
-    <!--左侧边栏 结束-->
-    <!--文章列表 开始-->
-    <div class="content pure-u-1 pure-u-md-3-4">
-        <div>
-            {% block content %}
-            {% endblock %}
-        </div>
-    </div>
-    <!--文章列表 结束-->
-</div>
-<div class="go-top">
-    <div class="arrow"></div>
-    <div class="stick"></div>
-</div>
-<div id="header_box" class="header-box" style="float:left">
-        <div class="pop_ctrl"><i id="header-box-nume" class="icon-caidan iconfont" style="color: #FFFFFF;font-size:38px"></i></div>
-        <ul id="header_box_ul" style="text-align: left">
-            <li class="icon-zhuye iconfont" style="line-height: 50px;padding-left: 15px;font-size: 18px">首页</li>
-            <li class="icon-guanji iconfont" style="line-height: 50px;padding-left: 15px;font-size: 18px">关闭</li>
-        </ul>
-    </div>
-<script type="text/javascript" src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+<!DOCTYPE HTML>
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+{% load blog_tag %}
+<html>
 
-<script type="text/javascript" src="{% static 'js/jquery.popmenu.js' %}"></script>
-<script>
-    $(function () {
-        $(window).scroll(function () {
-            if ($(window).scrollTop() > 800){
-                $('div.go-top').show();
-                document.getElementById('header-box-nume').style.color='#6f7e95';
-                // 6f7e95
-            }else{
-                $('div.go-top').hide();
-                document.getElementById('header-box-nume').style.color='#ffffff';
-            }
-        });
-        $('div.go-top').click(function () {
-            $('html, body').animate({scrollTop: 0}, 500);
-        });
-        
-	    $('#header_box').popmenu({'background':'#e67e22','focusColor':'#c0392b','borderRadius':'0','top':'58','left':'24','div_id': "sidebar-Id"});
-    });
-</script>
+<head>
+    <title>我的博客</title>
+    <meta charset="utf-8" />
+    {% load static %}
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="{% static '/assets/css/main.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/mdstyle.css' %}">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1160532_c0ve0ul2kct.css">
+</head>
+
+<body class="is-preload">
+
+    <!-- Wrapper -->
+    <div id="wrapper">
+
+        <!-- Main -->
+        <div id="main">
+            <div class="inner">
+                {% block content %}
+                {% endblock %}
+
+
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div id="sidebar">
+            <div class="inner">
+
+                <!-- Search -->
+                <section id="search" class="alt">
+                    <form method="post" action='{% url "search_key" %}'>
+                        <input type="text" name="key" id="key" placeholder="输入您要搜索的文字" />
+                    </form>
+                </section>
+
+                <!-- Menu -->
+                <nav id="menu">
+                    <header class="major">
+                        <h2>菜单</h2>
+                    </header>
+                    <ul>
+                        <li><a href="{% url 'home' %}">回到首页</a></li>
+                        <li><a href="{% url 'mroe' %}">全部文章</a></li>
+                        <li><a href="elements.html">详情</a></li>
+                        <li>
+                            <span class="opener">分类</span>
+                            {% get_cate_num as cate_List %}
+                            <ul>
+                                {% for post in cate_List %}
+                                <li style="margin-bottom: 12px;margin-left: 12px;list-style-type:none;"><a
+                                        class="text-primary"
+                                        href="{%url 'category_menu' id=post.id %}">{{post.name}}</a>
+                                </li>
+                                {% empty %}
+                                暂无分类！
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        <li>
+                            <span class="opener">标签</span>
+                            {% get_tags_num as tags %}
+                            <ul>
+                                {% for tag in tags %}
+                                <li style="margin-bottom: 12px;margin-left: 12px;list-style-type:none;"><a
+                                        class="text-primary"
+                                        href="{%url 'search_tag' tag=tag.name %}">{{tag.name}}</a>
+                                </li>
+                                {% empty %}
+                                暂无标签！
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        <li>
+                            <span class="opener">归档</span>
+                            {% get_months_num as cate_List %}
+                            <ul>
+                                {% for month in months %}
+                                <li style="margin-bottom: 12px;margin-left: 12px;list-style-type:none;"><a
+                                        class="text-primary"
+                                        href="{% url 'archives' year=month.year month=month.month %}">{{ month | date:'Y年m月' }}</a>
+                                </li>
+                                {% empty %}
+                                暂无归档！
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        <li>
+                            <span class="opener">工具</span>
+                            <ul>
+                                <li><a href='{% url "formatJson" %}'>格式化json</a></li>
+                                <li><a href="#">Linux</a></li>
+                                <li><a href="#">Windows</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- Section -->
+                <section>
+                    <header class="major">
+                        <h2>最新发布</h2>
+                    </header>
+                    <div class="mini-posts">
+                        <article>
+                            <a href="#" class="image"><img src="{% static '/assets/images/pic07.jpg' %}" alt="" /></a>
+                            <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
+                        </article>
+                        <article>
+                            <a href="#" class="image"><img src="{% static '/assets/images/pic08.jpg' %}" alt="" /></a>
+                            <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
+                        </article>
+                        <article>
+                            <!-- <a href="#" class="image"><img src="images/pic09.jpg" alt="" /></a> -->
+                            <h4>算法-位运算浅析</h4>
+                            <h6>基础知识
+                                1.位运算符优先级低，混合使用时最好使用括号
+                                2.位(bit)就是单个的0或1，一个字节(BYTE)由八个位组成
+                                3.与运算(&)是双目运算。与运算的一个用途是检查指定位是否置位(等于1)
+                                4.或运算(|)是双目运算
+                                5.异或运算(^)是双目运算。异或运算可用于位值翻转
+                                6.非运算(~)单目运算。 7.移位运算(>> 与 <<)。可用于乘2与除2，比乘除法快</h6> </article> </div> <ul class="actions">
+                                    <li><a href="#" class="button">More</a></li>
+                                    </ul>
+                </section>
+
+                <!-- Section -->
+                <section>
+                    <header class="major">
+                        <h2>联系方式</h2>
+                    </header>
+                    <p>Sed varius enim lorem ullamcorper dolore aliquam aenean ornare velit lacus, ac varius enim lorem
+                        ullamcorper dolore. Proin sed aliquam facilisis ante interdum. Sed nulla amet lorem feugiat
+                        tempus aliquam.</p>
+                    <ul class="contact">
+                        <li class="fa-envelope-o"><a href="#">information@untitled.tld</a></li>
+                        <li class="fa-phone">(000) 000-0000</li>
+                        <li class="fa-home">1234 Somewhere Road #8254<br />
+                            Nashville, TN 00000-0000</li>
+                    </ul>
+                </section>
+
+                <!-- Footer -->
+                <footer id="footer">
+                    <p class="copyright">&copy; Untitled. All rights reserved. Demo Images: <a
+                            href="https://unsplash.com">Unsplash</a>. Design: <a href="https://html5up.net">HTML5
+                            UP</a>.</p>
+                </footer>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="{% static '/assets/js/jquery.min.js' %}"></script>
+    <script src="{% static '/assets/js/browser.min.js' %}"></script>
+    <script src="{% static '/assets/js/breakpoints.min.js' %}"></script>
+    <script src="{% static '/assets/js/util.js' %}"></script>
+    <script src="{% static '/assets/js/main.js' %}"></script>
+
 </body>
+
 </html>
+
+

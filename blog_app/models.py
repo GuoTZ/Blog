@@ -57,7 +57,8 @@ class Article(models.Model):
     last_mod_time = models.DateTimeField(verbose_name='修改时间')
     category = models.ForeignKey(Category, verbose_name='分类', on_delete=models.CASCADE, blank=False, null=False)
     tags = models.ManyToManyField(Tag, verbose_name='标签集合', blank=True)
-
+    image_url = models.CharField(verbose_name='图片', max_length=1000,null=True)
+    
     # 使对象在后台显示更友好
     def __str__(self):
         return self.title

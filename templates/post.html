@@ -1,10 +1,12 @@
 {% extends "base.html" %}
+{% load static %}
 {% block content %}
-    <div class="posts">
-        <section class="post">
+
+<div class="content" style="padding-bottom: 4rem;padding-top: 4rem">
+    <!-- <div class="posts"> -->
+        <!-- <section class="post"> -->
             <header class="post-header">
-                <h2 class="post-title"><a href="{% url 'detail' id=post.id %}"
-                                          style="text-decoration: none">{{ post.title }}</a></h2>
+                <h1 class="post-title"><a style="text-decoration: none">{{ post.title }}</a></h1>
                 <p class="post-meta">
                     <i class="fa fa-calendar" aria-hidden="true"></i>&nbsp; {{ post.pub_time|date:'Y-m-d H:i' }}&nbsp;&nbsp;
                     <i class="fa fa-book"></i>&nbsp;
@@ -24,8 +26,8 @@
                     {{ post.content |safe }}
                 </p>
             </div>
-        </section>
-    </div><!-- /.blog-post -->
+        <!-- </section> -->
+    <!-- </div>/.blog-post -->
     <!-- 上下篇文章切换 -->
     <div>
         {% if prev_post %}
@@ -40,5 +42,5 @@
             </a>
         {% endif %}
     </div>
-
+</div>
 {% endblock %}

@@ -1,52 +1,106 @@
 {% extends "base.html" %}
 {% load static %}
+
+
 {% block content %}
-<div class="posts">
-    {% for post in post_list %}
-    <!-- <div class="post-container">
-        
-    </div> -->
-    <section class="post">
-        <header class="post-header">
-            <!-- <img width="48" height="48" alt="Tilo Mitra's avatar" class="post-avatar"
-                src='{% static "image/avatar.png" %}'> -->
-            <h2 class="post-title"><a href="{% url 'detail' id=post.id %}"
-                    style="text-decoration: none">{{ post.title }}</a></h2>
-            <p class="post-meta">
-                <i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;{{ post.pub_time |date:'Y-m-d' }}&nbsp;&nbsp;
-                <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;{{ post.views }}次浏览&nbsp;&nbsp;
-                <i class="fa fa-book"></i>&nbsp;{{ post.category }}&nbsp;&nbsp;
-            </p>
-        </header>
+<!-- Header -->
+<header id="header">
+	<a href="" class="logo">欢迎光临<strong>博客</strong> </a>
+	<ul class="icons">
+		<li><a href="https://github.com/GuoTZ" class="iconfont icon-GitHub"><span class="label">GitHub</span></a></li>
+		<li><a href="https://www.jianshu.com/u/c7f424f6b259" class="iconfont "><span class="label">简书</span></a></li>
+		<li><a href="#" class="icon fa-snapchat-ghost"><span class="label">Snapchat</span></a></li>
+		<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+		<li><a href="#" class="icon fa-medium"><span class="label">Medium</span></a></li>
+	</ul>
+</header>
 
-        <div class="post-description">
-            <p>
-                {#striptags用于过滤正文中所有的HTML标签#}
-                {#truncatechars用于截取正文前300个字符|truncatechars:300#}
-                {{ post.content|safe }}
-            </p>
-        </div>
-        <div>
-            <a class="button" href="{% url 'detail' id=post.id %}" style="text-decoration: none">阅读全文</a>
-        </div>
+<!-- Banner -->
+<section id="banner">
+	<div class="content">
+		<header>
+			<h1>Hi, I’m iOS Development Engineer</h1>
+			<p>A free and fully responsive site template</p>
+		</header>
+		<p>Aenean ornare velit lacus, ac varius enim ullamcorper eu. Proin aliquam facilisis ante
+			interdum congue. Integer mollis, nisl amet convallis, porttitor magna ullamcorper, amet
+			egestas mauris. Ut magna finibus nisi nec lacinia. Nam maximus erat id euismod egestas.
+			Pellentesque sapien ac quam. Lorem ipsum dolor sit nullam.</p>
+		<ul class="actions">
+			<li><a href="#" class="button big">Learn More</a></li>
+		</ul>
+	</div>
+	<span class="image object">
+		<img src="{% static '/assets/images/0.jpg' %}" alt="" />
+	</span>
+</section>
 
-    </section>
-    {% endfor %}
-</div><!-- /.blog-post -->
-{% if post_list.object_list and post_list.paginator.num_pages > 1 %}
-<div>
-    {% if post_list.has_previous %}
-    <a class="footer" href="?page={{ post_list.previous_page_number }}"
-        style="text-decoration: none; float: left; padding-left: 1%">
-        <i class="fa fa-angle-left"></i>&nbsp;&nbsp;上一页
-    </a>
-    {% endif %}
-    {% if post_list.has_next %}
-    <a class="footer" href="?page={{ post_list.next_page_number }}"
-        style="text-decoration: none; float: right; padding-right: 1%">
-        下一页&nbsp;&nbsp;<i class="fa fa-angle-right"></i>
-    </a>
-    {% endif %}
-</div>
-{% endif %}
-{% endblock %}
+<!-- Section -->
+<section>
+	<header class="major">
+		<h2>作者置顶</h2>
+	</header>
+	<div class="features">
+		<article>
+			<!-- <span class="icon fa-diamond"></span> -->
+			<div class="content">
+				<h2>测试一下</h2>
+				<h3>Github</h3>
+				<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam
+					facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+			</div>
+		</article>
+		<article>
+			<!-- <span class="icon fa-paper-plane"></span> -->
+			<div class="content">
+				<h3>Sapien veroeros</h3>
+				<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam
+					facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+			</div>
+		</article>
+		<article>
+			<!-- <span class="icon fa-rocket"></span> -->
+			<div class="content">
+				<h3>Quam lorem ipsum</h3>
+				<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam
+					facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+			</div>
+		</article>
+		<article>
+			<!-- <span class="icon fa-signal"></span> -->
+			<div class="content">
+				<h3>Sed magna finibus</h3>
+				<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam
+					facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+			</div>
+		</article>
+	</div>
+</section>
+
+<!-- Section -->
+<section>
+	<header class="major">
+		<h2>全部文章<a style="padding:0 24px" href='{% url "mroe" %}' class="icon-gengduo iconfont"></a></h2>
+	</header>
+	<div class="posts">
+
+
+		{% for model in post_list %}
+		<article>
+			{% if model.image_url %}
+			<a class="image"><img src="{{ model.image_url }}" alt="" /></a>
+			{% else %}
+			<a class="image"><img src="{% static '/assets/images/pic01.jpg' %}" alt="" /></a>
+			{% endif %}
+			
+			<h3>{{model.title}}</h3>
+			<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam
+				facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+			<ul class="actions">
+				<li><a href="{% url 'detail' id=model.id %}" class="button">查看详情</a></li>
+			</ul>
+		</article>
+		{% endfor %}
+	</div>
+</section>
+{% endblock content %}

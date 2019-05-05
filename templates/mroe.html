@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+<link rel="stylesheet" href="{% static '/assets/css/main.css' %}" />
+
+{% block content %}
+<section>
+	<header class="major">
+		<h2>全部文章</h2>
+	</header>
+	<div class="posts">
+
+
+		{% for model in post_list %}
+		<article>
+			<!-- {% if model.image_url %}
+			<a class="image"><img src="{{ model.image_url }}" alt="" /></a>
+			{% else %}
+			<a class="image"><img src="{% static '/assets/images/pic01.jpg' %}" alt="" /></a>
+			{% endif %} -->
+			<h3>{{model.title}}</h3>
+			<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam
+				facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+			<ul class="actions">
+				<li><a href="{% url 'detail' id=model.id %}" class="button">查看详情</a></li>
+			</ul>
+		</article>
+		{% endfor %}
+	</div>
+</section>
+{% endblock content %}

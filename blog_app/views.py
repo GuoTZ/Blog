@@ -1,22 +1,30 @@
 from django.shortcuts import render
 from blog_app.models import Article, Category,Tag
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.http import Http404
+from django.http import Http404,HttpResponse
 from django.conf import settings
 import markdown
-
-categories = Category.objects.all()[0:10]  # 获取全部的分类对象
-tags = Tag.objects.all()[0:10]  # 获取全部的标签对象
-months = Article.objects.datetimes('pub_time', 'month', order='DESC')
-
-
+from django.db.models import Q
+import json
 # Create your views here.
 def home(request):  # 主页
+    posts = Article.objects.filter(status='p', pub_time__isnull=False)[0:20]
+        
+    for post in posts:
+            # 记得在顶部引入 markdown 模块
+        post.content = markdown.markdown(post.content,
+                                    extensions=[
+                                        'markdown.extensions.extra',
+                                        'markdown.extensions.codehilite',
+                                        'markdown.extensions.toc',
+                                    ])
+    return render(request, 'home.html', {'post_list': posts})
+
+# Create your views here.
+def mroe(request):  # 主页
     posts = Article.objects.filter(status='p', pub_time__isnull=False)  # 获取全部(状态为已发布，发布时间不为空)Article对象
     paginator = Paginator(posts, settings.PAGE_NUM)  # 每页显示数量
     page = request.GET.get('page')  # 获取URL中page参数的值
-    categories = Category.objects.all()[0:10]  # 获取全部的分类对象
-    months = Article.objects.datetimes('pub_time', 'month', order='DESC')
     try:
         post_list = paginator.page(page)
     except PageNotAnInteger:
@@ -32,8 +40,7 @@ def home(request):  # 主页
                                         'markdown.extensions.codehilite',
                                         'markdown.extensions.toc',
                                     ])
-    return render(request, 'home.html', {'post_list': post_list, 'category_list': categories, 'months': months})
-
+    return render(request, 'mroe.html', {'post_list': post_list})
 
 def detail(request, id):
     try:
@@ -55,10 +62,8 @@ def detail(request, id):
         {
             'post': post,
             'tags': tags,
-            'category_list': categories,
             'next_post': next_post,
             'prev_post': prev_post,
-            'months': months
         }
     )
 
@@ -85,9 +90,7 @@ def search_category(request, id):
                                     ])
     return render(request, 'category.html',
                   {'post_list': post_list,
-                   'category_list': categories,
-                   'category': category,
-                   'months': months
+                   'category': category
                   }
     )
 
@@ -104,9 +107,23 @@ def search_tag(request, tag):
         post_list = paginator.page(paginator.num_pages)
     return render(request, 'tag.html', {
         'post_list': post_list,
-        'category_list': categories,
-        'tag': tag,
-        'months': months
+        'tag': tag
+        }
+    )
+def search_key(request):
+    key = request.POST.get('key')
+    posts = Article.objects.filter(Q(title__icontains=key) | Q(tags__name__icontains=key) | Q(content__icontains=key))
+    paginator = Paginator(posts, settings.PAGE_NUM)  # 每页显示数量
+    try:
+        page = request.GET.get('page')  # 获取URL中page参数的值
+        post_list = paginator.page(page)
+    except PageNotAnInteger:
+        post_list = paginator.page(1)
+    except EmptyPage:
+        post_list = paginator.page(paginator.num_pages)
+    return render(request, 'searchkey.html', {
+        'post_list': post_list,
+        'key': key
         }
     )
 
@@ -123,8 +140,20 @@ def archives(request, year, month):
         post_list = paginator.page(paginator.num_pages)
     return render(request, 'archive.html', {
         'post_list': post_list,
-        'category_list': categories,
-        'months': months,
         'year_month': year+'年'+month+'月'
         }
     )
+
+def formatJson(request):
+    return render(request, 'formatJson.html',{'jsonStr':'','json_dicts':''})
+
+def jsonFrom(request):
+    jsonStr = request.POST.get('jsonStr')
+    
+    try:
+        json_dicts=json.loads(jsonStr)
+        js = json.dumps(json_dicts, sort_keys=True, indent=4, separators=(',', ':'),ensure_ascii=False)
+        return render(request, 'formatJson.html',{'jsonStr':jsonStr,'json_dicts':js})
+    except ValueError as e:
+        return render(request, 'formatJson.html',{'jsonStr':jsonStr,'json_dicts':e})
+    

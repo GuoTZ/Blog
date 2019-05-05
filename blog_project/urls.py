@@ -19,9 +19,14 @@ from blog_app import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
+    path('mroe/', views.mroe, name='mroe'),
     path('home/', views.home, name='home'),
     path('articles/<int:id>/', views.detail, name='detail'),
     path('category/<int:id>/', views.search_category, name='category_menu'),
     path('tag/<str:tag>/', views.search_tag, name='search_tag'),
+    path('search/', views.search_key, name='search_key'),
     path('archives/<str:year>/<str:month>', views.archives, name='archives'),
+    path('formatJson/', views.formatJson, name='formatJson'),
+    path('jsonFrom/', views.jsonFrom, name='jsonFrom'),
+    
 ]

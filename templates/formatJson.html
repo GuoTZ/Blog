@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
+<!-- <section>
+    <header class="major">
+        <h2>格式化json</h2>
+    </header>
+    <form id="ajaxForm" method="post" action='{% url "jsonFrom" %}'>
+        <button type="submit" id="btnSubmit" style="margin-bottom: 12px">提交1</button>
+        <button type="button" id="btnSubmit1">清空</button>
+        <select style="width: 150px;float: right;margin-right: 10%">
+            <option value ="0">OC</option>
+            <option value ="1">Swift</option>
+            <option value="2">Python</option>
+            <option value="3">C#</option>
+          </select>
+        <button type="button" id="btnSubmit2" style="float:right">生成</button>
+        
+        <textarea name="jsonStr" id="jsonStr" rows="15" style="width: 80%">{{jsonStr}}</textarea>
+    </form>
+    <pre>{{json_dicts}}</pre>-->
+
+    <!-- <header class="header">
+        <div class="row-fluid" >
+            <div class="col-md-5" style="position:relative;">
+                <a class="logo" href="index.html">junbaor.<span style="color:#555;">github.io/json</span></a>
+    
+            </div>
+            <nav class="col-md-7" style="padding:10px 0;"  align="right">
+                <div  class="navi">
+                    <a href="index.html" data-placement="bottom">在线解析</a>
+                    
+                    <a href="wiki.html"  data-placement="bottom">什么是Json</a>
+                    <a href="code.html"  data-placement="bottom">Json解析代码</a>
+                    <a href="component.html"  data-placement="bottom">Json组件</a>
+    
+                </div>
+            </nav>
+            <br style="clear:both;" />
+        </div>
+    </header>
+     -->
+     <section style="padding: 5px">
+    <main class="row-fluid">
+        <div class="col-md-5" style="padding:0;">
+            <textarea id="jsonSrc" name="jsonStr" placeholder="在此输入json字符串或XML字符串..."   class="form-control"  style="height:722px;padding:0 10px 10px 20px;border:0;border:solid 1px #ddd;border-radius:0;resize: none; outline:none;"></textarea>
+        </div>
+        <div class="col-md-7" style="padding:0;">
+            <div style="padding:10px;font-size:16px;;" class="navi">
+                <a href="index.html#" class="tip zip" title="压缩"  data-placement="bottom"><i class="fa fa-database"></i></a>
+                <a href="index.html#" class="tip shown"  title="显示行号"  data-placement="bottom"><i class="glyphicon glyphicon-sort-by-order"></i></a>
+                <a href="index.html#" class="tip clear" title="清空"  data-placement="bottom"><i class="fa fa-trash"></i></a>
+            </div>
+            <div id="right-box"  style="height:679px;border:solid 1px #ddd;border-radius:0;resize: none;overflow-y:scroll; outline:none;position:relative;">
+                <div id="line-num" style="background-color:#fafafa;padding:0px 8px;float:left;border-right:dashed 1px #eee;display:none;z-index:-1;color:#999;position:absolute;text-align:center;over-flow:hidden;">
+                    <div>0</div>
+                </div>
+                <div class="ro" id="json-target" style="padding:0px 25px;">
+                </div>
+            </div>
+            <form id="form-save" method="POST"><input type="hidden" value="" id="txt-content" name="content"></form>
+        </div>
+    </main>
+    </section>
+    <script src="{% static '/js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static '/js/auto-line-number.js' %}"></script>
+    <script type="text/javascript">
+        $("#jsonStr").setTextareaCount({
+            width: "30px",
+            bgColor: "#3e4ef9",
+            color: "#FFF",
+            display: "inline-block"
+        });
+        $(function () {
+            $("#ajaxForm").submit(function () {
+                $(this).ajaxSubmit(function () {
+                    alert("提交成功1");
+                });
+                return false;
+            });
+        });
+    </script> 
+    {% endblock content %}
